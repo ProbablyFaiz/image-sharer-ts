@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   root 'images#index'
 
   resources :images, only: %i[create destroy new index show]
+  resources :feedbacks, only: [:new]
 end
