@@ -25,6 +25,8 @@ node_modules
 /public/packs
 /public/packs-test
 /node_modules
+
 .idea/
+.vscode/
 
 /vendor/bundle
