@@ -4,4 +4,8 @@
   <%= @image.url %>
 </p>
  
-<img src="<%= @image.url %>">
+<div>
+  <%= image_tag @image.url %>
+</div>
+
+<%= link_to 'My Images', controller: 'images' %>
