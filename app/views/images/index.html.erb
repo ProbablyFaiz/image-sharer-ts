@@ -1,0 +1,15 @@
+<h1>Your images</h1>
+ 
+<table>
+  <tr>
+    <th>URL</th>
+    <th>Preview</th>
+  </tr>
+ 
+  <% @images.each do |image| %>
+    <tr>
+      <td><%= image.url %></td>
+      <td><%= url_for(image) %></td>
+    </tr>
+  <% end %>
+</table>
