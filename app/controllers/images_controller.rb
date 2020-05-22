@@ -4,7 +4,8 @@ class ImagesController < ApplicationController
 
     if @image.valid?
       @image.save!
-      redirect_to @image
+      flash[:notice] = "Saved image #{@image.id}"
+      redirect_to image_path @image.id
     else
       flash[:errors] = @image.errors
       redirect_to action: 'new', url: @image.url

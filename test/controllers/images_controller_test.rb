@@ -49,10 +49,19 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'https://images.examples.com/three.jpg', Image.last.url
   end
 
+  test 'A flash message is displayed indicating the image was created successfully' do
+    post images_path,
+         params: { image: { url: 'https://images.examples.com/three.jpg' } }
+
+    assert_redirected_to Image.last
+    follow_redirect!
+    assert_match(/^Saved image [0-9]+$/, flash[:notice])
+  end
+
   test 'I cannot successfully save an image with an invalid URL' do
     img = { url: 'ftp://foo.com' }
     assert_no_difference 'Image.count' do
-      post '/images',
+      post images_path,
            params: { image: img }
 
       assert_redirected_to controller: :images, action: :new, params: img
