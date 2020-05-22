@@ -1,4 +1,6 @@
 class ImagesController < ApplicationController
+  protect_from_forgery with: :exception
+
   def create
     @image = Image.new(image_params)
 
