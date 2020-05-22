@@ -4,8 +4,10 @@
   <p>
     <%= form.label :url %><br>
     <%= form.text_field :url, value: params[:url] %>
-    <% if flash[:error] && flash[:error].any? %>
-      <span class="field-error"><%= flash[:error].first %>
+    <% if @errors.has_key? :url %>
+      <% @errors[:url].each do |error| %>
+        <div class="field-error"><%= error %></div>
+      <% end %>
     <% end %>
   </p>
  

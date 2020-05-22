@@ -6,7 +6,7 @@ class ImagesController < ApplicationController
       @image.save!
       redirect_to @image
     else
-      flash[:error] = @image.errors.values.first
+      flash[:errors] = @image.errors
       redirect_to action: 'new', url: @image.url
     end
   end
@@ -15,7 +15,9 @@ class ImagesController < ApplicationController
     @images = Image.all
   end
 
-  def new; end
+  def new
+    @errors = flash[:errors] || {}
+  end
 
   def show
     @image = Image.find(params[:id])

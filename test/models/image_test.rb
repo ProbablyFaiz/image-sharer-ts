@@ -20,6 +20,13 @@ class ImageTest < ActiveSupport::TestCase
     assert_equal ['Must provide valid http(s) URL'], img.errors.messages[:url]
   end
 
+  test 'An image with a malformed URL is not valid' do
+    img = Image.new url: 'not a url'
+
+    refute img.valid?
+    assert_equal ['Must provide valid http(s) URL'], img.errors.messages[:url]
+  end
+
   test 'An image without URL is not valid' do
     img = Image.new url: ''
 
