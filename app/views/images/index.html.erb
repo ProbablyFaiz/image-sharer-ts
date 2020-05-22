@@ -14,7 +14,7 @@
   <% @images.each do |image| %>
     <tr class="image-row">
       <td><a href="<%= url_for(image) %>"><%= image.url %></a></td>
-      <td><img width="400" src="<%= image.url %>"></td>
+      <td><%= image_tag image.url %></td>
     </tr>
   <% end %>
 </table>
