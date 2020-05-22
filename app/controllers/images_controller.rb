@@ -2,8 +2,13 @@ class ImagesController < ApplicationController
   def create
     @image = Image.new(image_params)
 
-    @image.save
-    redirect_to @image
+    if @image.valid?
+      @image.save!
+      redirect_to @image
+    else
+      flash[:error] = @image.errors.values.first
+      redirect_to action: 'new', url: @image.url
+    end
   end
 
   def index

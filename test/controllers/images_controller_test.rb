@@ -41,11 +41,24 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_difference 'Image.count' do
       post images_path,
            params: { image: { url: 'https://images.examples.com/three.jpg' } }
-      assert_response :redirect
+      assert_redirected_to Image.last
       follow_redirect!
       assert_response :success
     end
 
     assert_equal 'https://images.examples.com/three.jpg', Image.last.url
+  end
+
+  test 'I cannot successfully save an image with an invalid URL' do
+    img = { url: 'this is not a url' }
+    assert_no_difference 'Image.count' do
+      post '/images',
+           params: { image: img }
+
+      assert_redirected_to controller: :images, action: :new, params: img
+      follow_redirect!
+      assert_response :success
+      assert_equal ['Must provide valid http(s) URL'], flash[:error]
+    end
   end
 end

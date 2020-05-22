@@ -3,7 +3,10 @@
 <%= form_with scope: :image, url: :images, local: true do |form| %>
   <p>
     <%= form.label :url %><br>
-    <%= form.text_field :url %>
+    <%= form.text_field :url, value: params[:url] %>
+    <% if flash[:error] && flash[:error].any? %>
+      <span class="field-error"><%= flash[:error].first %>
+    <% end %>
   </p>
  
   <p>
