@@ -5,14 +5,14 @@
 
 <h1>My images</h1>
 
-<table>
-  <tr>
+<table class="image-list">
+  <tr class="table-header">
     <th>URL</th>
     <th>Preview</th>
   </tr>
- 
+
   <% @images.each do |image| %>
-    <tr>
+    <tr class="image-row">
       <td><a href="<%= url_for(image) %>"><%= image.url %></a></td>
       <td><img width="400" src="<%= image.url %>"></td>
     </tr>
