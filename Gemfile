@@ -13,6 +13,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'therubyracer', platforms: :ruby
 
 gem 'activerecord-session_store', '>= 1.1.3'
+gem 'acts-as-taggable-on', '~> 6.0'
 gem 'simple_form', '>= 5.0.2'
 gem 'validate_url', '>= 1.0.11'
 

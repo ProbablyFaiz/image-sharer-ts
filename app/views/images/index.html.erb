@@ -1,22 +1,28 @@
+<nav>
+  <%= link_to('Add image', controller: 'images', action: 'new') %>
+</nav>
 
-<%= link_to('Add image', controller: 'images', action: 'new') %>
 
 <% if @images.length > 0 %>
 
-<h1>My images</h1>
+<section>
+  <h1>My images</h1>
 
-<table class="image-list">
-  <tr class="table-header">
-    <th>URL</th>
-    <th>Preview</th>
-  </tr>
-
-  <% @images.each do |image| %>
-    <tr class="image-row">
-      <td><a href="<%= url_for(image) %>"><%= image.url %></a></td>
-      <td><%= image_tag image.url %></td>
+  <table class="image-list">
+    <tr class="table-header">
+      <th>URL</th>
+      <th>Tags</th>
+      <th>Preview</th>
     </tr>
-  <% end %>
-</table>
+
+    <% @images.each do |image| %>
+      <tr>
+        <td><a href="<%= url_for(image) %>"><%= image.url %></a></td>
+        <td><%= image.tag_list.each do |t| t end %></td>
+         <td><%= image_tag image.url %></td>
+      </tr>
+    <% end %>
+  </table>
+</section>
 
 <% end %>

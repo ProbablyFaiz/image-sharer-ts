@@ -1,11 +1,24 @@
+<nav>
+  <%= link_to 'My Images', controller: 'images' %>
+</nav>
 
-<p>
-  <strong>URL:</strong>
-  <%= @image.url %>
-</p>
+<section>
+  <h2>URL</h2>
+  <p>
+    <%= @image.url %>
+  </p>
+</section>
 
-<div>
-  <%= image_tag @image.url %>
-</div>
+<section class="tags">
+  <h2>Tags</h2>
+  <p class="tag_list">
+    <%= @image.tag_list.each do |t| t end %>
+  </p>
+</section>
 
-<%= link_to 'My Images', controller: 'images' %>
+<section>
+  <h2>Image</h2>
+  <div>
+    <%= image_tag @image.url %>
+  </div>
+</section>

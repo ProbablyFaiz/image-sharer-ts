@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'db/migrate/20200522044817_add_sessions_table.rb'
+    - 'db/migrate/202005222219*' # acts_as_taggable_on
     - 'log/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'

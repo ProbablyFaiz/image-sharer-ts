@@ -23,6 +23,16 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'I can view the tags of an individual image' do
+    image = Image.create! url: 'https://images.examples.com/one.jpg', tag_list: %w[bar baz],
+                          created_at: Time.now
+
+    get image_path image.id
+    assert_response :success
+
+    assert_select '.tag_list', 'bar, baz'
+  end
+
   test 'I get a 404 trying to view an individual image that does not exist' do
     get image_path(-1)
 
@@ -73,6 +83,18 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_response 422
       image = @controller.instance_variable_get :@image
       assert_equal ['is not a valid URL'], image.errors.messages[:url]
+    end
+  end
+
+  test 'I can tag images' do
+    assert_difference 'Image.count', 1 do
+      assert_difference 'ActsAsTaggableOn::Tagging.count', 2 do
+        post images_path,
+             params: { image: { url: 'https://images.examples.com/three.jpg', tag_list: 'foo, bar' } }
+
+        assert_redirected_to Image.last
+        assert_equal %w[foo bar], Image.last.tag_list
+      end
     end
   end
 end
