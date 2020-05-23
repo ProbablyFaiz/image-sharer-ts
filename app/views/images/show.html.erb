@@ -12,7 +12,9 @@
 <section class="tags">
   <h2>Tags</h2>
   <p class="tag_list">
-    <%= @image.tag_list.each do |t| t end %>
+    <% @image.tag_list.each do |t| %>
+      <%= link_to t, controller: 'images', action: 'index', tag: t %>
+    <% end %>
   </p>
 </section>
 

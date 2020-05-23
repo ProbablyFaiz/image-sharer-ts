@@ -1,7 +1,9 @@
 <nav>
   <%= link_to('Add image', controller: 'images', action: 'new') %>
+  <% if params[:tag] %>
+    <%= link_to 'All Images', controller: 'images', action: 'index' %>
+  <% end %>
 </nav>
-
 
 <% if @images.length > 0 %>
 
@@ -18,11 +20,17 @@
     <% @images.each do |image| %>
       <tr>
         <td><a href="<%= url_for(image) %>"><%= image.url %></a></td>
-        <td><%= image.tag_list.each do |t| t end %></td>
-         <td><%= image_tag image.url %></td>
+        <td>
+        <% image.tag_list.each do |t| %>
+          <%= link_to t, controller: 'images', action: 'index', tag: t %>
+        <% end %>
+        </td>
+        <td><%= image_tag image.url %></td>
       </tr>
     <% end %>
   </table>
 </section>
 
+<% else %>
+  <p>There are no images<% if params[:tag] %> matching <%= params[:tag] %><% end %></p>
 <% end %>

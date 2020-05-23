@@ -19,7 +19,11 @@ class ImagesController < ApplicationController
   end
 
   def index
-    @images = Image.all.order created_at: :desc
+    @images = if params[:tag]
+                Image.tagged_with(params[:tag]).order created_at: :desc
+              else
+                Image.all.order created_at: :desc
+              end
   end
 
   def new

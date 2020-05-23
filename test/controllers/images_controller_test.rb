@@ -11,6 +11,13 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'The landing page has a message when there are no images' do
+    get images_path
+    assert_response :success
+
+    assert_select 'p', 'There are no images'
+  end
+
   test 'I can view an individual image' do
     image = Image.create! url: 'https://images.examples.com/one.jpg', created_at: Time.now
 
@@ -30,13 +37,39 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path image.id
     assert_response :success
 
-    assert_select '.tag_list', 'bar, baz'
+    assert_select '.tag_list a', 2
+    assert_select '.tag_list a[href=?]', root_path(params: { tag: :bar })
+    assert_select '.tag_list a[href=?]', root_path(params: { tag: :baz })
   end
 
   test 'I get a 404 trying to view an individual image that does not exist' do
     get image_path(-1)
 
     assert_response :missing
+  end
+
+  test 'When I click on a tag, I see a filtered list of only the images that have the tag I clicked on.' do
+    bar_image = Image.create! url: 'https://images.examples.com/bar.jpg', tag_list: %w[bar]
+    baz_image = Image.create! url: 'https://images.examples.com/baz.jpg', tag_list: %w[baz]
+
+    get images_path params: { tag: :bar }
+    assert_response :success
+
+    assert_select 'tr a[href=?]', image_path(baz_image), false
+
+    assert_select 'tr img[src]', 1
+    assert_select 'tr img[src=?]', bar_image.url
+    assert_select 'tr a[href=?]', image_path(bar_image)
+  end
+
+  test 'When I search for a tag the page has a message when there are no matching images' do
+    Image.create! url: 'https://images.examples.com/bar.jpg', tag_list: %w[bar]
+    Image.create! url: 'https://images.examples.com/baz.jpg', tag_list: %w[baz]
+
+    get images_path params: { tag: :foo }
+    assert_response :success
+
+    assert_select 'p', 'There are no images matching foo'
   end
 
   test 'Newest images appear first' do
