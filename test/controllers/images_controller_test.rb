@@ -73,7 +73,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to controller: :images, action: :new, params: img
       follow_redirect!
       assert_response :success
-      assert_equal ['Must provide valid http(s) URL'], flash[:errors].messages[:url]
+      assert_equal ['is not a valid URL'], flash[:errors].messages[:url]
     end
   end
 end

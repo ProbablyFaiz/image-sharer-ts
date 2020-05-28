@@ -17,20 +17,20 @@ class ImageTest < ActiveSupport::TestCase
     img = Image.new url: 'ftp://img.example.com'
 
     refute_predicate img, :valid?
-    assert_equal ['Must provide valid http(s) URL'], img.errors.messages[:url]
+    assert_equal ['is not a valid URL'], img.errors.messages[:url]
   end
 
   test 'An image with a malformed URL is not valid' do
     img = Image.new url: 'not a url'
 
-    refute img.valid?
-    assert_equal ['Must provide valid http(s) URL'], img.errors.messages[:url]
+    refute_predicate img, :valid?
+    assert_equal ['is not a valid URL'], img.errors.messages[:url]
   end
 
   test 'An image without URL is not valid' do
     img = Image.new url: ''
 
     refute_predicate img, :valid?
-    assert_equal ["can't be blank", 'Must provide valid http(s) URL'], img.errors.messages[:url]
+    assert_equal ['is not a valid URL'], img.errors.messages[:url]
   end
 end
