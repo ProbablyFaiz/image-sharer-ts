@@ -23,6 +23,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'I get a 404 trying to view an individual image that does not exist' do
+    get image_path(-1)
+
+    assert_response :missing
+  end
+
   test 'Newest images appear first' do
     Image.create! url: 'https://images.examples.com/four.jpg', created_at: Time.now
     Image.create! url: 'https://images.examples.com/three.jpg', created_at: Time.now - 1.day

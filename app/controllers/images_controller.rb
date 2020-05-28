@@ -1,6 +1,8 @@
 class ImagesController < ApplicationController
   protect_from_forgery with: :exception
 
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   def create
     @image = Image.new(image_params)
 
@@ -27,6 +29,10 @@ class ImagesController < ApplicationController
   end
 
   private
+
+  def not_found
+    render file: "#{Rails.root}/public/404.html", layout: false, status: 404
+  end
 
   def image_params
     params.require(:image).permit(:url)
