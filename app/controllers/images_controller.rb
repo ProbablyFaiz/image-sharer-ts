@@ -14,8 +14,7 @@ class ImagesController < ApplicationController
       flash[:notice] = "Saved image #{@image.id}"
       redirect_to image_path @image.id
     else
-      flash[:errors] = @image.errors
-      redirect_to action: 'new', url: @image.url
+      render action: :new, status: 422
     end
   end
 
@@ -24,7 +23,7 @@ class ImagesController < ApplicationController
   end
 
   def new
-    @errors = flash[:errors] || {}
+    @image = Image.new
   end
 
   def show

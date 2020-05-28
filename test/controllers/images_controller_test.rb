@@ -70,10 +70,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       post images_path,
            params: { image: img }
 
-      assert_redirected_to controller: :images, action: :new, params: img
-      follow_redirect!
-      assert_response :success
-      assert_equal ['is not a valid URL'], flash[:errors].messages[:url]
+      assert_response 422
+      image = @controller.instance_variable_get :@image
+      assert_equal ['is not a valid URL'], image.errors.messages[:url]
     end
   end
 end
