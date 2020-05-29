@@ -1,0 +1,11 @@
+
+<p>
+  <strong>URL:</strong>
+  <%= @image.url %>
+</p>
+
+<div>
+  <%= image_tag @image.url %>
+</div>
+
+<%= link_to 'My Images', controller: 'images' %>

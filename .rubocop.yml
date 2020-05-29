@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - 'db/schema.rb'
+    - 'db/migrate/20200522044817_add_sessions_table.rb'
     - 'log/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
