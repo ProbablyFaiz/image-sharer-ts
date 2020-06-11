@@ -18,6 +18,16 @@ class ImagesController < ApplicationController
     end
   end
 
+  def destroy
+    return redirect_to images_path unless Image.exists?(params[:id])
+
+    @image = Image.find(params[:id])
+
+    @image.destroy!
+    flash[:notice] = "Deleted image #{@image.id}"
+    redirect_to images_path
+  end
+
   def index
     @images = if params[:tag]
                 Image.tagged_with(params[:tag]).order created_at: :desc

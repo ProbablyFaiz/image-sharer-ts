@@ -3,5 +3,5 @@ Rails.application.routes.draw do
 
   root 'images#index'
 
-  resources :images, only: %i[create new index show]
+  resources :images, only: %i[create destroy new index show]
 end
