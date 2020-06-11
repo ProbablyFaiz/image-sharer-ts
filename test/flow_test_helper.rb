@@ -4,11 +4,17 @@ require 'active_support/test_case'
 require 'capybara/rails'
 require 'capybara/dsl'
 
+require 'ae_page_objects'
+require 'ae_page_objects/rails'
+
+module PageObjects
+end
+
+Dir[File.dirname(__FILE__) + '/helpers/pageobjects/**/*.rb'].each { |file| require file }
+
 class FlowTestCase < ActiveSupport::TestCase
   include Capybara::DSL
   include Rails.application.routes.url_helpers
-
-  fixtures :all
 end
 
 # Tip 3 from http://blog.plataformatec.com.br/2011/12/three-tips-to-improve-the-performance-of-your-test-suite/

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ImagesControllerTest < ActionDispatch::IntegrationTest
+class ImagesControllerTest < ActionDispatch::IntegrationTest # rubocop:disable Metrics/ClassLength
   test 'The landing page links to the image link submission form' do
     get images_path
     assert_response :success
@@ -110,8 +110,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   test 'I cannot successfully save an image with an invalid URL' do
     img = { url: 'ftp://foo.com' }
     assert_no_difference 'Image.count' do
-      post images_path,
-           params: { image: img }
+      post images_path, params: { image: img }
 
       assert_response 422
       image = @controller.instance_variable_get :@image
@@ -129,5 +128,26 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
         assert_equal %w[foo bar], Image.last.tag_list
       end
     end
+  end
+
+  test 'I can delete an image' do
+    Image.create! url: 'https://images.examples.com/bar.jpg'
+
+    assert_difference 'Image.count', -1 do
+      delete image_path Image.last
+
+      assert_redirected_to images_path
+      assert_match(/^Deleted image [0-9]+$/, flash[:notice])
+    end
+  end
+
+  test 'Deleting an image is idempotent' do
+    Image.create! url: 'https://images.examples.com/bar.jpg'
+    url = image_path Image.last
+
+    delete url
+    assert_redirected_to images_path
+    delete url
+    assert_redirected_to images_path
   end
 end
