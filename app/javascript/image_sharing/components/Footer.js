@@ -1,7 +1,26 @@
-import React, { Component } from 'react';
+import { Col, Row } from 'reactstrap';
 
-class Footer extends Component {
-  /* Implement your Footer component here */
-}
+import { PropTypes } from 'mobx-react';
+import React from 'react';
+
+const Footer = (props = {}) => {
+  const { text = 'Copyright: AppFolio Inc. Onboarding' } = props;
+
+  return (
+    <section className='footer'>
+      <Row>
+        <Col lg={{ size: 4, offset: 4 }}>
+          <p className='text-center'>
+            {text}
+          </p>
+        </Col>
+      </Row>
+    </section>
+  );
+};
+
+Footer.propTypes = {
+  text: PropTypes.string
+};
 
 export default Footer;
