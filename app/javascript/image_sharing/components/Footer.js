@@ -1,7 +1,7 @@
 import { Col, Row } from 'reactstrap';
-
-import { PropTypes } from 'mobx-react';
 import React from 'react';
+
+import { PropTypes } from '../utils/prop-types';
 
 const Footer = (props = {}) => {
   const { text = 'Copyright: AppFolio Inc. Onboarding' } = props;

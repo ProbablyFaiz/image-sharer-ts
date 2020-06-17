@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
-import PropTypes from 'prop-types';
+
+import { PropTypes } from '../utils/prop-types';
 
 class Header extends Component {
   static propTypes = {
