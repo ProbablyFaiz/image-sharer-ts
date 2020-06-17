@@ -11,7 +11,7 @@ describe('FeedbackStore', () => {
     feedbackStore = new FeedbackStore();
   });
 
-  ['userName', 'comments'].forEach(observable =>
+  ['userName', 'comments'].forEach((observable) => {
     it(`has a ${observable} observable`, async () => {
       const valueChanged = new Promise(resolve => observe(feedbackStore, observable, resolve));
 
@@ -19,5 +19,15 @@ describe('FeedbackStore', () => {
       const change = await valueChanged;
 
       expect(change).to.haveOwnProperty('newValue', `Foo ${observable}`);
-    }));
+    });
+
+    it(`allows changing ${observable} via #onChange`, async () => {
+      const valueChanged = new Promise(resolve => observe(feedbackStore, observable, resolve));
+
+      feedbackStore.onChange({ target: { name: observable, value: `Foo ${observable}` } });
+      const change = await valueChanged;
+
+      expect(change).to.haveOwnProperty('newValue', `Foo ${observable}`);
+    });
+  });
 });

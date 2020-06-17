@@ -9,10 +9,6 @@ import { useStore } from '../stores/index';
 const FeedbackForm = observer(() => {
   const { feedbackStore } = useStore();
 
-  const onChange = action((event) => {
-    feedbackStore[event.target.name] = event.target.value;
-  });
-
   const onSubmit = action((event) => {
     event.preventDefault();
     console.warn({ event, feedbackStore });
@@ -22,11 +18,11 @@ const FeedbackForm = observer(() => {
     <Form onSubmit={onSubmit}>
       <FormGroup>
         <Label for="userName">Username:</Label>
-        <Input type="text" name="userName" id="userName" placeholder="Your username" value={feedbackStore.userName} onChange={onChange} />
+        <Input type="text" name="userName" id="userName" placeholder="Your username" value={feedbackStore.userName} onChange={feedbackStore.onChange} />
       </FormGroup>
       <FormGroup>
         <Label for="comments">Comments</Label>
-        <Input type="textarea" name="comments" id="comments" onChange={onChange} />
+        <Input type="textarea" name="comments" id="comments" onChange={feedbackStore.onChange} />
       </FormGroup>
       <FormGroup>
         <Button type="Submit">Submit</Button>
