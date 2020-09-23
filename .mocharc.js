@@ -12,6 +12,7 @@ module.exports = {
   package: './package.json',
   r: [
     'esm',
+    'ts-node/register',
     '@babel/register',
     'ignore-styles',
   ],
