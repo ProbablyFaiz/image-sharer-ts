@@ -1,3 +1,10 @@
+export interface ApiResponseSuccess extends Record<string, any> { }
+export interface ApiResponseError extends Error {
+  data?: Record<string, any>
+}
+
+export type ApiResponse = ApiResponseSuccess | ApiResponseError;
+
 const HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
@@ -6,14 +13,14 @@ const HEADERS = {
 
 function getCsrfToken() {
   const meta = document.querySelector('meta[name="csrf-token"]');
-  return meta ? meta.getAttribute('content') : '';
+  return meta?.getAttribute('content') || '';
 }
 
 /**
  * Build a query string from an object
  */
-export function serialize(obj, prefix) {
-  const parts = [];
+export function serialize(obj: Record<string, any>, prefix: string): string {
+  const parts: string[] = [];
   Object.keys(obj).forEach((key) => {
     if (obj[key] !== undefined && obj[key] !== null) {
       const param = prefix ? `${prefix}[${key}]` : key;
@@ -33,7 +40,7 @@ export function serialize(obj, prefix) {
  * Checks the response code of an HTTP response.
  * For 200 responses a Promise for the JSON is returned.  Otherwise an error is thrown
  */
-function checkResponseStatus(res) {
+function checkResponseStatus(res: Response): ApiResponse {
   const status = res.status;
   if (status === 204) {
     return Promise.resolve(); // No content
@@ -50,7 +57,7 @@ function checkResponseStatus(res) {
         let error = new Error(res.statusText);
         try {
           const data = JSON.parse(text);
-          error.data = data;
+          (<any>error).data = data;
         } catch (e) {
           if (text) {
             error = new Error(text);
@@ -65,7 +72,7 @@ function checkResponseStatus(res) {
 /**
  * Perform an HTTP POST to the API and parse the response as JSON
  */
-export function post(path, body) {
+export function post(path: string, body: Record<string, any>): Promise<ApiResponse> {
   return fetch(path, {
     body: JSON.stringify(body),
     credentials: 'same-origin',
