@@ -1,6 +1,6 @@
 export interface ApiResponseSuccess extends Record<string, any> { }
 export interface ApiResponseError extends Error {
-  data?: Record<string, any>
+  data?: string;
 }
 
 export type ApiResponse = ApiResponseSuccess | ApiResponseError;
