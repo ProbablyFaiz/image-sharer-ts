@@ -6,14 +6,14 @@ const HEADERS = {
 
 function getCsrfToken() {
   const meta = document.querySelector('meta[name="csrf-token"]');
-  return meta ? meta.getAttribute('content') : '';
+  return meta?.getAttribute('content') || '';
 }
 
 /**
  * Build a query string from an object
  */
-export function serialize(obj, prefix) {
-  const parts = [];
+export function serialize(obj: Record<string, any>, prefix: string): string {
+  const parts: string[] = [];
   Object.keys(obj).forEach((key) => {
     if (obj[key] !== undefined && obj[key] !== null) {
       const param = prefix ? `${prefix}[${key}]` : key;
@@ -29,10 +29,17 @@ export function serialize(obj, prefix) {
   return parts.join('&');
 }
 
+export interface ApiResponseSuccess extends Record<string, any> { }
+export interface ApiResponseError extends Error {
+  data?: string
+}
+
+export type ApiResponse = ApiResponseSuccess | ApiResponseError;
+
 /**
  * Perform an HTTP POST to the API and parse the response as JSON
  */
-export function post(path, body) {
+export function post(path: string, body: Record<string, any>): Promise<ApiResponse> {
   return fetch(path, {
     body: JSON.stringify(body),
     credentials: 'same-origin',
@@ -46,7 +53,7 @@ export function post(path, body) {
  * Checks the response code of an HTTP response.
  * For 200 responses a Promise for the JSON is returned.  Otherwise an error is thrown
  */
-function checkResponseStatus(res) {
+function checkResponseStatus(res: Response): ApiResponse {
   const status = res.status;
   if (status === 204) {
     return Promise.resolve(); // No content
@@ -60,10 +67,9 @@ function checkResponseStatus(res) {
     return res
       .text()
       .then((text) => {
-        let error = new Error(res.statusText);
+        let error: ApiResponseError = new Error(res.statusText);
         try {
-          const data = JSON.parse(text);
-          error.data = data;
+          error.data = JSON.parse(text);
         } catch (e) {
           if (text) {
             error = new Error(text);
