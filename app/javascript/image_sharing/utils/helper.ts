@@ -81,3 +81,14 @@ export function post(path: string, body: Record<string, any>): Promise<ApiRespon
     redirect: 'error',
   }).then(checkResponseStatus);
 }
+
+export function get(path: string): Promise<ApiResponse> {
+  return fetch(path, {
+    credentials: 'same-origin',
+    headers: Object.assign({ 'X-CSRF-Token': getCsrfToken() }, HEADERS),
+    method: 'GET',
+    redirect: 'error',
+  }).then(checkResponseStatus);
+}
+
+(window as any)._api = { get, post }
