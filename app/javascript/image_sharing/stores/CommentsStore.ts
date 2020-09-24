@@ -1,19 +1,18 @@
-import { observable } from 'mobx';
-
-export interface Comment {
-  created_at: string;
-  id: number;
-  text: string;
-}
+import { action, observable, runInAction } from 'mobx';
+import CommentsService, { Comment } from '../services/CommentsService';
 
 export class CommentsStore {
   @observable comments: Comment[] = [];
 
-  constructor() {
-    this.comments = [
-      { created_at: 'Just now', id: 1, text: 'I am a sample comment' }
-    ]
+  constructor(private _imageId: string) {
+    this.loadComments();
+  }
 
+  @action loadComments = async () => {
+    const comments = await CommentsService.getComments(this._imageId);
+    runInAction(() => {
+      this.comments = comments;
+    });
   }
 }
 
