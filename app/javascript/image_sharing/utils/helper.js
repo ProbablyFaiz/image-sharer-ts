@@ -30,6 +30,19 @@ export function serialize(obj, prefix) {
 }
 
 /**
+ * Perform an HTTP POST to the API and parse the response as JSON
+ */
+export function post(path, body) {
+  return fetch(path, {
+    body: JSON.stringify(body),
+    credentials: 'same-origin',
+    headers: Object.assign({ 'X-CSRF-Token': getCsrfToken() }, HEADERS),
+    method: 'POST',
+    redirect: 'error',
+  }).then(checkResponseStatus);
+}
+
+/**
  * Checks the response code of an HTTP response.
  * For 200 responses a Promise for the JSON is returned.  Otherwise an error is thrown
  */
@@ -60,17 +73,4 @@ function checkResponseStatus(res) {
       });
   }
   return res.json();
-}
-
-/**
- * Perform an HTTP POST to the API and parse the response as JSON
- */
-export function post(path, body) {
-  return fetch(path, {
-    body: JSON.stringify(body),
-    credentials: 'same-origin',
-    headers: Object.assign({ 'X-CSRF-Token': getCsrfToken() }, HEADERS),
-    method: 'POST',
-    redirect: 'error',
-  }).then(checkResponseStatus);
 }
