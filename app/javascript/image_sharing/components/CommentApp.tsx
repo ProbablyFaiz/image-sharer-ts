@@ -1,10 +1,11 @@
 import React from 'react';
 
+import CommentsStore from '../stores/CommentsStore';
 import CommentsList from "./CommentsList";
 
 const App = () => (
   <div>
-    <CommentsList />
+    <CommentsList commentsStore={new CommentsStore()} />
   </div>
 );
 

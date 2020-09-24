@@ -1,14 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { observer } from "mobx-react";
-
-interface Comment {
-  created_at: string;
-  id: number;
-  text: string;
-}
+import CommentsStore from '../stores/CommentsStore';
 
 interface CommentsListProps {
-  comments?: Comment[];
+  commentsStore: CommentsStore;
 }
 
 @observer
@@ -17,7 +12,7 @@ class CommentsList extends Component<CommentsListProps> {
     return (
       <Fragment>
         <h2>Comments</h2>
-        {this.props.comments?.map(comment =>
+        {this.props.commentsStore.comments.map(comment =>
           <div key={comment.id}>
             {comment.text}
             <div style={{ color: "grey", fontSize: "14px" }}>
