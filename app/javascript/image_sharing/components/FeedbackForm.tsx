@@ -1,15 +1,14 @@
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
-import { Alert, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import React from 'react';
+import { Alert, Button, Form, FormGroup, Input, Label } from 'reactstrap';
 
-import { PropTypes } from '../utils/prop-types';
 import { useStore } from '../stores/index';
 
 const FeedbackForm = observer(() => {
   const { feedbackStore } = useStore();
 
-  const onSubmit = action((event) => {
+  const onSubmit = action((event: React.FormEvent) => {
     event.preventDefault();
     feedbackStore.onSubmit();
   });
@@ -33,9 +32,5 @@ const FeedbackForm = observer(() => {
     </Form>
   );
 });
-
-FeedbackForm.propTypes = {
-  userName: PropTypes.string
-};
 
 export default FeedbackForm;

@@ -1,6 +1,7 @@
 import { observable, action, runInAction } from 'mobx';
 
 import { PostFeedbackService } from '../services/PostFeedbackService';
+import { ApiResponseError } from '../utils/helper';
 
 export class FeedbackStore {
   @observable userName = '';
@@ -8,7 +9,7 @@ export class FeedbackStore {
   @observable alert = { level: '', message: '' };
 
   @action.bound
-  onChange(event) {
+  onChange(event: React.ChangeEvent<HTMLInputElement>) {
     this[event.target.name] = event.target.value;
   }
 
@@ -21,7 +22,7 @@ export class FeedbackStore {
       });
     };
 
-    const onFailure = (e) => {
+    const onFailure = (e: ApiResponseError) => {
       runInAction(() => {
         this.alert = { level: 'error', message: e.data || e.message };
       });

@@ -8,5 +8,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     resource :feedbacks, only: [:create]
+    resources :comments, only: [:create, :index]
   end
 end

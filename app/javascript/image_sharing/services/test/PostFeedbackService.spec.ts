@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import sinon from 'sinon';
 
-import { PostFeedbackService } from '../PostFeedbackService';
 import * as Helpers from '../../utils/helper';
+import { PostFeedbackService } from '../PostFeedbackService';
 
 describe('PostFeedbackService', () => {
   describe('.submitFeedback', () => {
