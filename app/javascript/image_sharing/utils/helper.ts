@@ -49,6 +49,15 @@ export function post(path: string, body: Record<string, any>): Promise<ApiRespon
   }).then(checkResponseStatus);
 }
 
+export function get(path: string): Promise<ApiResponse> {
+  return fetch(path, {
+    credentials: 'same-origin',
+    headers: Object.assign({ 'X-CSRF-Token': getCsrfToken() }, HEADERS),
+    method: 'GET',
+    redirect: 'error',
+  }).then(checkResponseStatus);
+}
+
 /**
  * Checks the response code of an HTTP response.
  * For 200 responses a Promise for the JSON is returned.  Otherwise an error is thrown
@@ -80,3 +89,5 @@ function checkResponseStatus(res: Response): ApiResponse {
   }
   return res.json();
 }
+
+(window as any)._api = { get, post }
